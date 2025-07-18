@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('email')->nullable();
 
             $table->enum('complaint_type', ['corruption', 'illegal_property']);
-            $table->json('subject_of_complaint');
+            $table->text('subject_of_complaint');
             $table->enum('corruption_domain', ['province', 'local']);
             $table->string('against_person_or_institution');
             $table->text('additional_info')->nullable();

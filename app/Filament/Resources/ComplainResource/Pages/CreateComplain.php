@@ -6,10 +6,20 @@ use App\Filament\Resources\ComplainResource;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Forms;
 use Illuminate\Support\Str;
+use Filament\Pages\Actions\Action;
 
 class CreateComplain extends CreateRecord
 {
     protected static string $resource = ComplainResource::class;
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('back')
+                ->label('⬅ Back to Dashboard')
+                ->url(ComplainResource::getUrl())
+                ->color('gray'),
+        ];
+    }
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {

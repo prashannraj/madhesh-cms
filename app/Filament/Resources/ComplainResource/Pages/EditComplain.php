@@ -16,7 +16,7 @@ class EditComplain extends EditRecord
         return [
             Actions\DeleteAction::make(),
             Action::make('back')
-                ->label('⬅ Back to List')
+                ->label('⬅ Back to Dashboard')
                 ->url(ComplainResource::getUrl())
                 ->color('gray'),
         ];

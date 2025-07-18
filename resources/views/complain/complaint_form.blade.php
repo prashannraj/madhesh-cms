@@ -1,180 +1,219 @@
-<form action="{{ route('complaint.submit') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <title>अनलाइन उजुरी फारम</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+        }
+        .primary_header_2_wrapper {
+            background: #fff;
+            padding: 10px 0;
+            border-bottom: 2px solid #ccc;
+        }
+        .header_site_title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+        .header_site_description {
+            font-size: 16px;
+            margin-top: 0;
+        }
+        form {
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 25px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .alert {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
 
-    <!-- 1. Name -->
-    <label>Name Type:</label><br>
-    <input type="radio" name="name_type" value="individual" required> Individual
-    <input type="radio" name="name_type" value="group"> Group/Institution<br>
+    {{-- HEADER --}}
+    <div class="primary_header_2_wrapper full_width">
+        <div class="container bizberg-flex-container">
+            <div class="row bizberg-flex-container align-items-center">
+                <div class="col-sm-2 text-center">
+                    <div class="custom_header_content_logo_center left">
+                        <img src="https://ppoc.madhesh.gov.np/wp-content/uploads/2022/05/logo.jpg" style="max-height: 80px;">
+                    </div>
+                </div>
 
-    <input type="text" name="name" placeholder="Full Name / Institution Name" class="block w-full my-2" required>
+                <div class="col-sm-8 text-center">
+                    <div class="primary_header_2">
+                        <span style="color: #d41113; font-size: 16px; font-weight: bold;">मधेश प्रदेश सरकार</span>
+                    </div>
+                    <div class="primary_header_2">
+                        <a class="logo" href="https://ppoc.madhesh.gov.np/" target="_self">
+                            <h3 class="header_site_title">प्रदेश जनलोकपाल आयोग</h3>
+                            <p class="header_site_description">जनकपुरधाम</p>
+                        </a>
+                    </div>
+                </div>
 
-    <!-- 2. Gender -->
-    <label>Gender:</label><br>
-    <select name="gender" required>
-        <option value="">--Select--</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="third_gender">Third Gender</option>
-        <option value="others">Others</option>
-    </select><br><br>
-
-    <!-- 3. Age Group -->
-    <label>Age Group:</label><br>
-    <select name="age_group" required>
-        <option value="">--Select--</option>
-        <option value="below_16">Below 16</option>
-        <option value="16_39">16-39</option>
-        <option value="40_59">40-59</option>
-        <option value="60_above">60 Above</option>
-    </select><br><br>
-
-    <!-- 4. Contact -->
-    <input type="text" name="contact_number" placeholder="Contact Number" required><br><br>
-
-    <!-- 5. Email -->
-    <input type="email" name="email" placeholder="Email Address"><br><br>
-
-    <!-- 6. Complaint Type -->
-    <label>Complaint Type:</label><br>
-    <input type="radio" name="complaint_type" value="corruption" required> Corruption
-    <input type="radio" name="complaint_type" value="illegal_property"> Acquisition of Illegal Property<br><br>
-
-    <!-- 7. Subject of Complain -->
-    <label>Subject(s) of Complaint:</label><br>
-    <textarea name="subject_of_complaint[]" placeholder="Write subject(s), separated by comma" rows="3" required></textarea><br><br>
-
-    <!-- 8. Domain -->
-    <label>Domain of Corruption:</label><br>
-    <input type="radio" name="corruption_domain" value="province" required> Province Level
-    <input type="radio" name="corruption_domain" value="local"> Local Level<br><br>
-
-    <!-- 9. Against -->
-    <input type="text" name="against_person_or_institution" placeholder="Name of person/institution" required><br><br>
-
-    <!-- 10. Additional Info -->
-    <textarea name="additional_info" placeholder="Additional info about the complaint" rows="4"></textarea><br><br>
-
-    <!-- 11. File Upload -->
-    <label>Upload File (jpeg, jpg, png, pdf, doc, avi, mp3, mp4, wav – max 5MB):</label><br>
-    <input type="file" name="uploaded_file" accept=".jpeg,.jpg,.png,.pdf,.doc,.avi,.mp3,.mp4,.wav"><br><br>
-
-    <!-- 12. Terms -->
-    <label>
-        <input type="checkbox" name="terms_accepted" required>
-        I accept the terms and conditions.
-    </label><br><br>
-
-    <!-- 13. Submit -->
-    <button type="submit">Submit Complaint</button>
-</form>
-@if (session('success'))
-    <div class="alert alert-success" style="background: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-        {{ session('success') }}
+                <div class="col-sm-2 text-center">
+                    <div class="custom_header_content_logo_center right">
+                        <img src="https://ppoc.madhesh.gov.np/wp-content/uploads/2022/05/flag.gif" style="max-height: 80px;">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-@endif
+    {{-- Success/Error Messages --}}
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
-<style>
-    form {
-        max-width: 600px;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
-    label {
-        display: block;
-        margin-top: 10px;
-        font-weight: bold;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="file"],
-    select,
-    textarea {
-        width: 100%;
-        padding: 8px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-    button {
-        margin-top: 10px;
-        padding: 10px 15px;
-        background-color: #28a745;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    button:hover {
-        background-color: #218838;
-    }
-    .alert {
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 4px;
-    }
-    .alert-danger {
-        background-color: #f8d7da;
-        color: #721c24;
-    }
-    .alert-success {
-        background-color: #d4edda;
-        color: #155724;
-    }
-</style>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function(event) {
-            const termsAccepted = document.querySelector('input[name="terms_accepted"]');
-            if (!termsAccepted.checked) {
-                event.preventDefault();
-                alert('You must accept the terms and conditions to submit the complaint.');
-            }
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    {{-- FORM --}}
+    <form action="{{ route('complaint.submit') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <h3 class="header_site_title">अनलाइन उजुरी फाराम</h3>
+        <label>नामको प्रकार / Name Type:</label>
+        <input type="radio" name="name_type" value="individual" required> व्यक्तिगत / Individual
+        <input type="radio" name="name_type" value="group"> समूह/संस्था / Group/Institution
+        <input type="text" name="name" placeholder="पुरा नाम / संस्थाको नाम" class="my-2" required>
+
+        <label>लिङ्ग / Gender:</label>
+        <select name="gender" required>
+            <option value="">--छान्नुहोस्--</option>
+            <option value="male">पुरुष / Male</option>
+            <option value="female">महिला / Female</option>
+            <option value="third_gender">तेस्रो लिङ्गी / Third Gender</option>
+            <option value="others">अन्य / Others</option>
+        </select>
+
+        <label>उमेर समूह / Age Group:</label>
+        <select name="age_group" required>
+            <option value="">--छान्नुहोस्--</option>
+            <option value="below_16">१६ वर्ष मुनि / Below 16</option>
+            <option value="16_39">१६-३९ वर्ष / 16-39</option>
+            <option value="40_59">४०-५९ वर्ष / 40-59</option>
+            <option value="60_above">६० वर्ष माथि / 60 Above</option>
+        </select>
+
+        <label>सम्पर्क नम्बर:</label>
+        <input type="text" name="contact_number" placeholder="सम्पर्क नम्बर" required>
+
+        <label>इमेल:</label>
+        <input type="email" name="email" placeholder="Email Address">
+
+        <label>गुनासोको प्रकार:</label>
+        <input type="radio" name="complaint_type" value="corruption" required> भ्रष्टाचार / Corruption
+        <input type="radio" name="complaint_type" value="illegal_property"> अवैध सम्पत्ति / Illegal Property
+
+        <label>गुनासोको विषयहरू:</label>
+        <textarea name="subject_of_complaint" placeholder="अल्पविराम (,) प्रयोग गर्नुहोस्" rows="3" required></textarea>
+
+        <label>भ्रष्टाचारको क्षेत्र:</label>
+        <input type="radio" name="corruption_domain" value="province" required> प्रदेश स्तर
+        <input type="radio" name="corruption_domain" value="local"> स्थानीय तह
+
+        <label>कसको विरुद्ध:</label>
+        <input type="text" name="against_person_or_institution" placeholder="व्यक्ति वा संस्था" required>
+
+        <label>थप जानकारी:</label>
+        <textarea name="additional_info" placeholder="थप विवरण" rows="4"></textarea>
+
+        <label>फाइल अपलोड गर्नुहोस् (५MB सम्म):</label>
+        <input type="file" name="uploaded_file" accept=".jpeg,.jpg,.png,.pdf,.doc,.avi,.mp3,.mp4,.wav">
+
+        <label>
+            <input type="checkbox" name="terms_accepted" value="1" required>
+            म नियम र सर्तहरू स्वीकार गर्दछु / I accept the terms and conditions.
+        </label>
+
+        <button type="submit">पेश गर्नुहोस् / Submit Complaint</button>
+    </form>
+
+
+
+    {{-- Scripts --}}
+    <script>
+        $(function () {
+            $('input[name="name_type"]').change(function () {
+                const placeholder = $(this).val() === 'group' ? 'Institution Name' : 'Full Name';
+                $('input[name="name"]').attr('placeholder', placeholder).val('');
+            });
+
+            $('input[name="complaint_type"]').change(function () {
+                const isCorruption = $(this).val() === 'corruption';
+                $('input[name="corruption_domain"]').prop('required', isCorruption);
+            });
+
+            $('form').on('submit', function (e) {
+                if (!$('input[name="terms_accepted"]').is(':checked')) {
+                    e.preventDefault();
+                    alert('You must accept the terms and conditions.');
+                }
+            });
         });
-    });
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script
-<script>
-    $(document).ready(function() {
-        $('input[name="name_type"]').change(function() {
-            if ($(this).val() === 'group') {
-                $('input[name="name"]').attr('placeholder', 'Institution Name').val('');
-            } else {
-                $('input[name="name"]').attr('placeholder', 'Full Name').val('');
-            }
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('input[name="complaint_type"]').change(function() {
-            if ($(this).val() === 'corruption') {
-                $('input[name="corruption_domain"]').prop('required', true);
-            } else {
-                $('input[name="corruption_domain"]').prop('required', false);
-            }
-        });
-    });
-</script>
+    </script>
+
+</body>
+</html>
