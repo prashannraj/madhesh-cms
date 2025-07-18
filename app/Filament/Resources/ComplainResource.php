@@ -37,6 +37,7 @@ class ComplainResource extends Resource
                         Forms\Components\FileUpload::make('uploaded_file')
                             ->label('Attached File')
                             ->disabled()
+                            ->downloadable()
                             ->previewable()
                             ->directory('complains')
                             ->visibility('private'),

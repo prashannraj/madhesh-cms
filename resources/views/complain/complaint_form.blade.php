@@ -24,9 +24,7 @@
             font-size: 16px;
             margin-top: 0;
         }
-        form {
-            max-width: 700px;
-            margin: 30px auto;
+        .form-wrapper {
             padding: 25px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -77,121 +75,157 @@
             background-color: #d4edda;
             color: #155724;
         }
+        /* Styling for the published years sidebar */
+        .years-sidebar {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+            padding: 15px;
+            margin-top: 30px;
+        }
+        .years-sidebar h4 {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 
     {{-- HEADER --}}
     <div class="primary_header_2_wrapper full_width">
-        <div class="container bizberg-flex-container">
-            <div class="row bizberg-flex-container align-items-center">
-                <div class="col-sm-2 text-center">
-                    <div class="custom_header_content_logo_center left">
-                        <img src="https://ppoc.madhesh.gov.np/wp-content/uploads/2022/05/logo.jpg" style="max-height: 80px;">
-                    </div>
+        <div class="container">
+            <div class="row align-items-center text-center">
+                <div class="col-sm-2">
+                    <img src="https://ppoc.madhesh.gov.np/wp-content/uploads/2022/05/logo.jpg" style="max-height: 80px;" alt="Logo">
                 </div>
-
-                <div class="col-sm-8 text-center">
-                    <div class="primary_header_2">
-                        <span style="color: #d41113; font-size: 16px; font-weight: bold;">मधेश प्रदेश सरकार</span>
-                    </div>
-                    <div class="primary_header_2">
-                        <a class="logo" href="https://ppoc.madhesh.gov.np/" target="_self">
-                            <h3 class="header_site_title">प्रदेश जनलोकपाल आयोग</h3>
-                            <p class="header_site_description">जनकपुरधाम</p>
-                        </a>
-                    </div>
+                <div class="col-sm-8">
+                    <div style="color: #d41113; font-size: 16px; font-weight: bold;">मधेश प्रदेश सरकार</div>
+                    <a class="logo" href="https://ppoc.madhesh.gov.np/" target="_self">
+                        <h3 class="header_site_title">प्रदेश जनलोकपाल आयोग</h3>
+                        <p class="header_site_description">जनकपुरधाम</p>
+                    </a>
                 </div>
-
-                <div class="col-sm-2 text-center">
-                    <div class="custom_header_content_logo_center right">
-                        <img src="https://ppoc.madhesh.gov.np/wp-content/uploads/2022/05/flag.gif" style="max-height: 80px;">
-                    </div>
+                <div class="col-sm-2">
+                    <img src="https://ppoc.madhesh.gov.np/wp-content/uploads/2022/05/flag.gif" style="max-height: 80px;" alt="Flag">
                 </div>
             </div>
         </div>
     </div>
+
     {{-- Success/Error Messages --}}
-    @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    <div class="container mt-3">
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-    @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            {{-- फारामको Left Side --}}
+            <div class="col-md-8">
+                <div class="form-wrapper">
+                    <form action="{{ route('complaint.submit') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <h3 class="header_site_title">अनलाइन उजुरी फाराम</h3>
+                        <label>नामको प्रकार / Name Type:</label>
+                        <input type="radio" name="name_type" value="individual" required> व्यक्तिगत / Individual
+                        <input type="radio" name="name_type" value="group"> समूह/संस्था / Group/Institution
+                        <input type="text" name="name" placeholder="पुरा नाम / संस्थाको नाम" class="my-2" required>
+
+                        <label>लिङ्ग / Gender:</label>
+                        <select name="gender" required>
+                            <option value="">--छान्नुहोस्--</option>
+                            <option value="male">पुरुष / Male</option>
+                            <option value="female">महिला / Female</option>
+                            <option value="third_gender">तेस्रो लिङ्गी / Third Gender</option>
+                            <option value="others">अन्य / Others</option>
+                        </select>
+
+                        <label>उमेर समूह / Age Group:</label>
+                        <select name="age_group" required>
+                            <option value="">--छान्नुहोस्--</option>
+                            <option value="below_16">१६ वर्ष मुनि / Below 16</option>
+                            <option value="16_39">१६-३९ वर्ष / 16-39</option>
+                            <option value="40_59">४०-५९ वर्ष / 40-59</option>
+                            <option value="60_above">६० वर्ष माथि / 60 Above</option>
+                        </select>
+
+                        <label>सम्पर्क नम्बर:</label>
+                        <input type="text" name="contact_number" placeholder="सम्पर्क नम्बर" required>
+
+                        <label>इमेल:</label>
+                        <input type="email" name="email" placeholder="Email Address">
+
+                        <label>गुनासोको प्रकार:</label>
+                        <input type="radio" name="complaint_type" value="corruption" required> भ्रष्टाचार / Corruption
+                        <input type="radio" name="complaint_type" value="illegal_property"> अवैध सम्पत्ति / Illegal Property
+
+                        <label>गुनासोको विषयहरू:</label>
+                        <textarea name="subject_of_complaint" placeholder="अल्पविराम (,) प्रयोग गर्नुहोस्" rows="3" required></textarea>
+
+                        <label>भ्रष्टाचारको क्षेत्र:</label>
+                        <input type="radio" name="corruption_domain" value="province" required> प्रदेश स्तर
+                        <input type="radio" name="corruption_domain" value="local"> स्थानीय तह
+
+                        <label>कसको विरुद्ध:</label>
+                        <input type="text" name="against_person_or_institution" placeholder="व्यक्ति वा संस्था" required>
+
+                        <label>थप जानकारी:</label>
+                        <textarea name="additional_info" placeholder="थप विवरण" rows="4"></textarea>
+
+                        <label>फाइल अपलोड गर्नुहोस् (५MB सम्म):</label>
+                        <input type="file" name="uploaded_file" accept=".jpeg,.jpg,.png,.pdf,.doc,.avi,.mp3,.mp4,.wav">
+
+                        <label>
+                            <input type="checkbox" name="terms_accepted" value="1" required>
+                            म नियम र सर्तहरू स्वीकार गर्दछु / I accept the terms and conditions.
+                        </label>
+
+                        <button type="submit">पेश गर्नुहोस् / Submit Complaint</button>
+                    </form>
+                </div>
+            </div>
+
+            {{-- Right Side: Published Years --}}
+            <div class="col-md-4">
+                {{-- <div class="years-sidebar">
+                    <h4>आर्थिक वर्ष</h4>
+                    @if(isset($years) && $years->count())
+                        <ul class="list-group">
+                            @foreach($years as $year)
+                                <li class="list-group-item">
+                                    {{-- यहाँ $year->name अथवा चाहिएको वर्षको attribute प्रयोग गर्नुहोस् --}}
+                                    {{-- {{ $year->title ?? $year->year }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p>हाल कुनै प्रकाशित वर्ष उपलब्ध छैन।</p>
+                    @endif
+                </div> --}}
+                  <div class="years-sidebar">
+                    <h4>सम्पर्क विवरण</h4>
+                        <h3>प्रदेश जनलोकपाल आयोग</h3></br>
+                        <p>मधशे प्रदेश, जनकपुरधाम । </p></br>
+                        <p>फोन नं.: ०४१-५२६२१५१ </p></br>
+                        <p>इमेल: info.ppoc@madhesh.gov.np </p>
+                </div>
+            </div>
         </div>
-    @endif
-
-    {{-- FORM --}}
-    <form action="{{ route('complaint.submit') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <h3 class="header_site_title">अनलाइन उजुरी फाराम</h3>
-        <label>नामको प्रकार / Name Type:</label>
-        <input type="radio" name="name_type" value="individual" required> व्यक्तिगत / Individual
-        <input type="radio" name="name_type" value="group"> समूह/संस्था / Group/Institution
-        <input type="text" name="name" placeholder="पुरा नाम / संस्थाको नाम" class="my-2" required>
-
-        <label>लिङ्ग / Gender:</label>
-        <select name="gender" required>
-            <option value="">--छान्नुहोस्--</option>
-            <option value="male">पुरुष / Male</option>
-            <option value="female">महिला / Female</option>
-            <option value="third_gender">तेस्रो लिङ्गी / Third Gender</option>
-            <option value="others">अन्य / Others</option>
-        </select>
-
-        <label>उमेर समूह / Age Group:</label>
-        <select name="age_group" required>
-            <option value="">--छान्नुहोस्--</option>
-            <option value="below_16">१६ वर्ष मुनि / Below 16</option>
-            <option value="16_39">१६-३९ वर्ष / 16-39</option>
-            <option value="40_59">४०-५९ वर्ष / 40-59</option>
-            <option value="60_above">६० वर्ष माथि / 60 Above</option>
-        </select>
-
-        <label>सम्पर्क नम्बर:</label>
-        <input type="text" name="contact_number" placeholder="सम्पर्क नम्बर" required>
-
-        <label>इमेल:</label>
-        <input type="email" name="email" placeholder="Email Address">
-
-        <label>गुनासोको प्रकार:</label>
-        <input type="radio" name="complaint_type" value="corruption" required> भ्रष्टाचार / Corruption
-        <input type="radio" name="complaint_type" value="illegal_property"> अवैध सम्पत्ति / Illegal Property
-
-        <label>गुनासोको विषयहरू:</label>
-        <textarea name="subject_of_complaint" placeholder="अल्पविराम (,) प्रयोग गर्नुहोस्" rows="3" required></textarea>
-
-        <label>भ्रष्टाचारको क्षेत्र:</label>
-        <input type="radio" name="corruption_domain" value="province" required> प्रदेश स्तर
-        <input type="radio" name="corruption_domain" value="local"> स्थानीय तह
-
-        <label>कसको विरुद्ध:</label>
-        <input type="text" name="against_person_or_institution" placeholder="व्यक्ति वा संस्था" required>
-
-        <label>थप जानकारी:</label>
-        <textarea name="additional_info" placeholder="थप विवरण" rows="4"></textarea>
-
-        <label>फाइल अपलोड गर्नुहोस् (५MB सम्म):</label>
-        <input type="file" name="uploaded_file" accept=".jpeg,.jpg,.png,.pdf,.doc,.avi,.mp3,.mp4,.wav">
-
-        <label>
-            <input type="checkbox" name="terms_accepted" value="1" required>
-            म नियम र सर्तहरू स्वीकार गर्दछु / I accept the terms and conditions.
-        </label>
-
-        <button type="submit">पेश गर्नुहोस् / Submit Complaint</button>
-    </form>
-
-
+    </div>
 
     {{-- Scripts --}}
     <script>

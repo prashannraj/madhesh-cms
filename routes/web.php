@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ComplainController;
 
+
 // Root route: now loads complaint_form.blade.php
 Route::get('/', fn() => view('complain/complaint_form'));
 
@@ -22,9 +23,12 @@ Route::middleware('auth')->group(function () {
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 
-Route::get('/complain', fn() => view('complain/complaint_form'));
+//Route::get('/complain', fn() => view('complain/complaint_form'));
 // web.php
 Route::post('/submit-complaint', [ComplainController::class, 'submit'])->name('complaint.submit');
+// Complaint form route, Controller बाट years सहित view पठाउने
+Route::get('/complain', [ComplainController::class, 'showForm'])->name('complain.form');
+
 
 //Route::post('/complaint/submit', [ComplainController::class, 'submit'])->name('complaint.submit');
 

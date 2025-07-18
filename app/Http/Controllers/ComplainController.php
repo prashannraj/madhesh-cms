@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Complain; // Assuming you have a Complaint model
+use App\Models\Year;
 use Illuminate\Support\Facades\DB;
 
 class ComplainController extends Controller
@@ -90,5 +91,14 @@ class ComplainController extends Controller
         return redirect()->back()->with('success', 'उजुरी सफलतापूर्वक पेश गरियो।');
     }
 
+
+    public function showForm()
+    {
+        // is_publish = true भएका वर्षहरू ल्याउने
+        $years = Year::where('is_publish', true)->orderByDesc('year')->get();
+
+        // view मा $years पास गर्दै
+        return view('complain.complaint_form', compact('years'));
+    }
 
 }

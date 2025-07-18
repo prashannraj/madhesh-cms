@@ -14,7 +14,7 @@ class EditComplain extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+
             Action::make('back')
                 ->label('⬅ Back to Dashboard')
                 ->url(ComplainResource::getUrl())

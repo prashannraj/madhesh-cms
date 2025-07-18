@@ -17,6 +17,9 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Widgets\ComplainStatsOverview;
+use App\Filament\Widgets\ComplainSubjectStats;
+
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -27,6 +30,15 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+
+            // 👉 कार्यालयको नाम सेट गर्नुहोस्
+            ->brandName('प्रदेश जनलोकपाल आयोग')
+
+            // 👉 लोगो इमेज (Top-Left branding)
+            //->brandLogo(asset('images/logo.jpg'))  // Make sure images/logo.png exists
+
+            // 👉 Favicon सेट गर्नुहोस्
+            ->favicon(asset('images/favicon.ico'))  // or .png
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -37,8 +49,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+
+                \App\Filament\Widgets\ComplainStatsOverview::class,
+
             ])
             ->middleware([
                 EncryptCookies::class,
