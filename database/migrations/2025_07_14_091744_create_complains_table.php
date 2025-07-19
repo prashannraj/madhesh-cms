@@ -29,6 +29,8 @@ return new class extends Migration
             $table->text('additional_info')->nullable();
             $table->string('uploaded_file')->nullable();
             $table->boolean('terms_accepted')->default(false);
+            $table->foreignId('year_id')->constrained('years')->cascadeOnDelete();
+
 
             $table->enum('status', ['Processing', 'Holding', 'Finished'])->default('Processing'); // ⬅️ AFTER हटाउनुहोस्
 

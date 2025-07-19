@@ -8,7 +8,9 @@ use App\Http\Controllers\ComplainController;
 
 
 // Root route: now loads complaint_form.blade.php
-Route::get('/', fn() => view('complain/complaint_form'));
+//Route::get('/', fn() => view('complain/complaint_form'));
+Route::get('/', [ComplainController::class, 'showForm']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

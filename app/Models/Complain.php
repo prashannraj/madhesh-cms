@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Year;
 
 class Complain extends Model
 {
@@ -10,7 +12,7 @@ class Complain extends Model
         'name_type', 'name', 'gender', 'age_group', 'contact_number',
         'email', 'complaint_type', 'subject_of_complaint',
         'corruption_domain', 'against_person_or_institution',
-        'additional_info', 'uploaded_file', 'terms_accepted',
+        'additional_info', 'year_id', 'uploaded_file', 'terms_accepted',
         'submission_number', 'status'
     ];
     // protected $casts = [
@@ -27,5 +29,9 @@ class Complain extends Model
     //             }
     //         });
     //     }
+    public function year()
+    {
+        return $this->belongsTo(Year::class);
+    }
 
 }

@@ -193,6 +193,17 @@
                             <input type="checkbox" name="terms_accepted" value="1" required>
                             म नियम र सर्तहरू स्वीकार गर्दछु / I accept the terms and conditions.
                         </label>
+                        <label>आर्थिक वर्ष / Year:</label>
+                            <select name="year_id" required disabled>
+                                @foreach($years as $year)
+                                    @if($year->is_published)
+                                        <option value="{{ $year->id }}" selected>{{ $year->title }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+
+                            <!-- hidden input to send the selected year value to server -->
+                            <input type="hidden" name="year_id" value="{{ $years->firstWhere('is_published', true)?->id }}">
 
                         <button type="submit">पेश गर्नुहोस् / Submit Complaint</button>
                     </form>
@@ -202,19 +213,7 @@
             {{-- Right Side: Published Years --}}
             <div class="col-md-4">
                 {{-- <div class="years-sidebar">
-                    <h4>आर्थिक वर्ष</h4>
-                    @if(isset($years) && $years->count())
-                        <ul class="list-group">
-                            @foreach($years as $year)
-                                <li class="list-group-item">
-                                    {{-- यहाँ $year->name अथवा चाहिएको वर्षको attribute प्रयोग गर्नुहोस् --}}
-                                    {{-- {{ $year->title ?? $year->year }}
-                                </li>
-                            @endforeach
-                        </ul>
-                    @else
-                        <p>हाल कुनै प्रकाशित वर्ष उपलब्ध छैन।</p>
-                    @endif
+
                 </div> --}}
                   <div class="years-sidebar">
                     <h4>सम्पर्क विवरण</h4>

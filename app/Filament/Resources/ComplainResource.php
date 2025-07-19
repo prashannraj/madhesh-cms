@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ComplainResource\Pages;
 use App\Models\Complain;
+use App\Models\Year;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -30,6 +31,15 @@ class ComplainResource extends Resource
                 Forms\Components\Section::make('Complain Details')
                     ->schema([
                         Forms\Components\TextInput::make('name')->required()->disabled(),
+                        Forms\Components\Select::make('year_id')
+                            ->label('Year')
+                            ->options(
+                                Year::where('is_published', true)
+                                    ->pluck('title', 'id')
+                                    ->toArray()
+                            )
+                            ->required()
+                            ->searchable(),
                         Forms\Components\TextInput::make('contact_number')->disabled(),
                         Forms\Components\TextInput::make('email')->disabled(),
                         Forms\Components\Textarea::make('subject_of_complaint')->label('Subjects')->disabled(),
@@ -58,6 +68,7 @@ class ComplainResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('year.title')->label('Year'),
                 BadgeColumn::make('name_type')->colors(['individual' => 'primary', 'group' => 'success']),
                 BadgeColumn::make('gender')->colors([
                     'male' => 'info',
@@ -84,6 +95,13 @@ class ComplainResource extends Resource
                 ]),
             ])
             ->filters([
+                SelectFilter::make('year_id')
+                    ->label('Year')
+                    ->options(
+                        Year::where('is_published', true)
+                            ->pluck('title', 'id')
+                            ->toArray()
+                    ),
                 SelectFilter::make('complaint_type')->options([
                     'corruption' => 'Corruption',
                     'illegal_property' => 'Illegal Property',
@@ -109,9 +127,7 @@ class ComplainResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
@@ -124,8 +140,6 @@ class ComplainResource extends Resource
         ];
     }
 
-    // =================== मुख्य fix ======================
-    // Filament लाई record को Title दिने method, जसले null error हटाउँछ
     public static function getRecordTitle($record): string
     {
         return 'Complain #' . ($record->submission_number ?? $record->id);
