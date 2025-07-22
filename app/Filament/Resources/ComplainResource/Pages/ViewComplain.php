@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ComplainResource\Pages;
 use App\Filament\Resources\ComplainResource;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Forms;
+use Filament\Actions\Action;
 
 class ViewComplain extends ViewRecord
 {
@@ -30,6 +31,22 @@ class ViewComplain extends ViewRecord
                 ])
                 ->label('Complaint Status')
                 ->required(),
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('Print')
+                ->label('Print')
+                ->icon('heroicon-o-printer')
+                ->url(fn () => route('complaints.print', $this->record->id))
+                ->openUrlInNewTab(),
+
+            // Action::make('Download PDF')
+            // ->label('Download PDF')
+            // ->icon('heroicon-o-arrow-down-tray')
+            // ->url(fn () => route('complain.download', $this->record->id)),
         ];
     }
 }

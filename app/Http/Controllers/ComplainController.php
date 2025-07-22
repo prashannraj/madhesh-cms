@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Complain;
 use App\Models\Year;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+use Mpdf\Mpdf;
+
+
 
 class ComplainController extends Controller
 {
@@ -50,4 +55,24 @@ class ComplainController extends Controller
 
         return redirect()->back()->with('success', 'उजुरी सफलतापूर्वक पेश गरियो।');
     }
+
+    public function print($id)
+    {
+        $complaint = Complain::findOrFail($id);
+        return view('complain.print', compact('complaint'));
+    }
+
+
+    // public function downloadPDF($id)
+    // {
+    //     $complaint = Complain::with('year')->findOrFail($id);
+
+    //     $pdf = Pdf::loadView('complain.print', compact('complaint'))
+    //         ->setPaper('A4', 'portrait')
+    //         ->setOptions(['defaultFont' => 'DejaVu Sans']); // For Unicode (Nepali)
+
+    //     return $pdf->download('complaint-'.$complaint->submission_number.'.pdf');
+    // }
+
+
 }

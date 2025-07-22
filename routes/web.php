@@ -30,6 +30,8 @@ Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 Route::post('/submit-complaint', [ComplainController::class, 'submit'])->name('complaint.submit');
 // Complaint form route, Controller बाट years सहित view पठाउने
 Route::get('/complain', [ComplainController::class, 'showForm'])->name('complain.form');
+Route::get('/complain/print/{id}', [ComplainController::class, 'print'])->name('complaints.print');
+Route::get('/admin/complaints/{id}/download', [\App\Http\Controllers\ComplainController::class, 'downloadPDF'])->name('complaints.download');
 
 
 //Route::post('/complaint/submit', [ComplainController::class, 'submit'])->name('complaint.submit');
