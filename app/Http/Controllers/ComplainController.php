@@ -26,10 +26,10 @@ class ComplainController extends Controller
     {
         $validated = $request->validate([
             'name_type' => 'required|string',
-            'name' => 'required|string|max:255',
+            'name' => 'nullable|string|max:255',
             'gender' => 'required|string',
             'age_group' => 'required|string',
-            'contact_number' => 'required|string|max:20',
+            'contact_number' => 'nullable|string|max:20',
             'email' => 'nullable|email',
             'complaint_type' => 'required|string',
             'subject_of_complaint' => 'required|string',
@@ -40,6 +40,10 @@ class ComplainController extends Controller
             'terms_accepted' => 'required|accepted',
             'year_id' => 'required|exists:years,id',
         ]);
+        // Anonymous complaint handling
+        if ($request->has('is_anonymous')) {
+            $validated['name'] = 'नाम उल्लेख गर्न नचाहने';
+        }
 
         if ($request->hasFile('uploaded_file')) {
             $filePath = $request->file('uploaded_file')->store('complaints', 'public');

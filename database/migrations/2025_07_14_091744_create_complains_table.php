@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('submission_number')->unsigned()->unique()->nullable(); // ⬅️ AFTER हटाउनुहोस्
 
             $table->enum('name_type', ['individual', 'group']);
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->enum('gender', ['male', 'female', 'third_gender', 'others']);
             $table->enum('age_group', ['below_16', '16_39', '40_59', '60_above']);
             $table->string('contact_number');

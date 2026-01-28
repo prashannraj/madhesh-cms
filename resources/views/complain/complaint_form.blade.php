@@ -86,6 +86,10 @@
         .years-sidebar h4 {
             margin-bottom: 15px;
         }
+        .required-star {
+            color: red;
+            margin-left: 3px;
+        }
     </style>
 </head>
 <body>
@@ -140,12 +144,28 @@
                     <form action="{{ route('complaint.submit') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <h3 class="header_site_title">अनलाइन उजुरी फाराम</h3>
-                        <label>नामको प्रकार / Name Type:</label>
-                        <input type="radio" name="name_type" value="individual" required> व्यक्तिगत / Individual
-                        <input type="radio" name="name_type" value="group"> समूह/संस्था / Group/Institution
-                        <input type="text" name="name" placeholder="पुरा नाम / संस्थाको नाम" class="my-2" required>
+                        {{-- Name Type --}}
+                        <label>नामको प्रकार:<span class="required-star">*</span></label>
+                        <input type="radio" name="name_type" value="individual" required> व्यक्तिगत
+                        <input type="radio" name="name_type" value="group"> समूह / संस्था
 
-                        <label>लिङ्ग / Gender:</label>
+                        {{-- Anonymous Checkbox --}}
+                        <label class="mt-2">
+                            <input type="checkbox" id="anonymous_checkbox" name="is_anonymous" value="1">
+                            नाम उल्लेख गर्न नचाहने
+                        </label>
+
+                        {{-- Name Field --}}
+                        <div id="name_field_wrapper">
+                            <input type="text"
+                                name="name"
+                                id="name_field"
+                                placeholder="पुरा नाम / संस्थाको नाम"
+                                class="my-2"
+                                required>
+                        </div>
+
+                        <label>लिङ्ग / Gender:<span class="required-star">*</span></label>
                         <select name="gender" required>
                             <option value="">--छान्नुहोस्--</option>
                             <option value="male">पुरुष / Male</option>
@@ -164,23 +184,23 @@
                         </select>
 
                         <label>सम्पर्क नम्बर:</label>
-                        <input type="text" name="contact_number" placeholder="सम्पर्क नम्बर" required>
+                        <input type="text" name="contact_number" placeholder="सम्पर्क नम्बर">
 
                         <label>इमेल:</label>
                         <input type="email" name="email" placeholder="Email Address">
 
-                        <label>गुनासोको प्रकार:</label>
+                        <label>गुनासोको प्रकार:<span class="required-star">*</span></label>
                         <input type="radio" name="complaint_type" value="corruption" required> भ्रष्टाचार / Corruption
                         <input type="radio" name="complaint_type" value="illegal_property"> अवैध सम्पत्ति / Illegal Property
 
-                        <label>गुनासोको विषयहरू:</label>
+                        <label>गुनासोको विषयहरू:<span class="required-star">*</span></label>
                         <textarea name="subject_of_complaint" placeholder="अल्पविराम (,) प्रयोग गर्नुहोस्" rows="3" required></textarea>
 
-                        <label>भ्रष्टाचारको क्षेत्र:</label>
+                        <label>भ्रष्टाचारको क्षेत्र:<span class="required-star">*</span></label>
                         <input type="radio" name="corruption_domain" value="province" required> प्रदेश स्तर
                         <input type="radio" name="corruption_domain" value="local"> स्थानीय तह
 
-                        <label>कसको विरुद्ध:</label>
+                        <label>कसको विरुद्ध:<span class="required-star">*</span></label>
                         <input type="text" name="against_person_or_institution" placeholder="व्यक्ति वा संस्था" required>
 
                         <label>थप जानकारी:</label>
@@ -227,6 +247,29 @@
     </div>
 
     {{-- Scripts --}}
+
+    <script>
+    $(function () {
+
+        $('input[name="name_type"]').change(function () {
+            let placeholder = $(this).val() === 'group'
+                ? 'संस्थाको नाम'
+                : 'पुरा नाम';
+            $('#name_field').attr('placeholder', placeholder);
+        });
+
+        $('#anonymous_checkbox').change(function () {
+            if ($(this).is(':checked')) {
+                $('#name_field_wrapper').hide();
+                $('#name_field').prop('required', false).val('');
+            } else {
+                $('#name_field_wrapper').show();
+                $('#name_field').prop('required', true);
+            }
+        });
+
+    });
+</script>
     <script>
         $(function () {
             $('input[name="name_type"]').change(function () {
