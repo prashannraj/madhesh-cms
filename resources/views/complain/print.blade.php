@@ -116,7 +116,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-2">
-                    <img src="https://ppoc.madhesh.gov.np/wp-content/uploads/2022/05/logo.jpg" alt="Logo">
+                   <img src="{{ asset('assets/images/logo.png') }}" style="max-height: 80px;" alt="Logo">
                 </div>
                 <div class="col-sm-8">
                     <div style="color: #d41113; font-size: 16px; font-weight: bold;">मधेश प्रदेश सरकार</div>
@@ -124,7 +124,7 @@
                     <p class="header_site_description">जनकपुरधाम</p>
                 </div>
                 <div class="col-sm-2">
-                    <img src="https://ppoc.madhesh.gov.np/wp-content/uploads/2022/05/flag.gif" alt="Flag">
+                    <img src="{{ asset('assets/images/flag.gif') }}" style="max-height: 80px;" alt="Flag">
                 </div>
             </div>
         </div>
